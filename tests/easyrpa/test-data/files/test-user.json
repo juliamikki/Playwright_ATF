@@ -1,0 +1,13 @@
+{
+  "firstName": "Test",
+  "lastName": "Automation",
+  "email": "jshostak@ibagroup.eu",
+  "username": "testautomation2",
+  "password": "testautomation2",
+  "groups": [
+    {
+      "id": 1,
+      "name": "Administrators"
+    }
+  ]
+}

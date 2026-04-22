@@ -1,0 +1,15 @@
+{
+  "name": "Invoice Plane Automation",
+  "description": "Extracts unique products",
+  "repositoryId": "eu.ibagroup.samples.ap:easy-rpa-invoiceplane-ap:jar:full:2.2.1",
+  "moduleClass": 1234
+  "eu.ibagroup.easyrpa.ap.productsreader.ProductsReaderAp",
+  "dedicated": false,
+  "capabilities": [],
+  "dedicatedNodes": [],
+  "params": [],
+  "input": {
+    "variables": {},
+    "executionPath": []
+  }
+}

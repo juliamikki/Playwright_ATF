@@ -1,0 +1,77 @@
+import { test } from '@fixtures/easyrpa.fixture';
+import { AutomationProcessResponse } from '@api/models/automationProcess.model';
+
+test.describe('Automation Process', () => {
+  test.describe('Creation', () => {
+    test('should create via from input form', async ({ apPage, apContext }) => {
+      await apPage.createAutomationProcess(apContext.apData);
+      const { id } = await apPage.expectAutomationProcessCreated();
+      apContext.createdId = id;
+      await apPage.goBackToList();
+      await apPage.table.expectRowToExist(apContext.apData.name);
+    });
+
+    test('should create via file upload', async ({ apPage, apContext }) => {
+      await apPage.uploadAutomationProcessJSON(apContext.apData);
+      const { id } = await apPage.expectAutomationProcessCreated();
+      apContext.createdId = id;
+      await apPage.goBackToList();
+      await apPage.table.expectRowToExist(apContext.apData.name);
+    });
+
+    test.afterEach(async ({ apContext, apClient }) => {
+      if (apContext.createdId) {
+        await apClient.deleteById(apContext.createdId);
+      }
+    });
+  });
+
+  test.describe('Update', () => {
+    let body: AutomationProcessResponse;
+
+    test.beforeEach(async ({ apClient, apContext }) => {
+      ({ body } = await apClient.create(apContext.apData));
+      apContext.createdId = body.id;
+    });
+
+    test('should edit AP name', async ({ apPage, apContext }) => {
+      const newName = `[edited] ${apContext.apData.name}`;
+      const { name } = await apPage.updateAutomationProcess(body.name, { name: newName });
+      await apPage.goBackToList();
+      await apPage.table.expectRowToExist(name);
+    });
+
+    test('should edit AP description', async ({ apPage, apContext }) => {
+      const newDescription = `[edited] ${apContext.apData.description}`;
+      await apPage.updateAutomationProcess(body.name, { description: newDescription });
+      await apPage.goBackToList();
+      await apPage.table.expectRowToExist(newDescription);
+    });
+
+    test.afterEach(async ({ apContext, apClient }) => {
+      if (apContext.createdId) {
+        await apClient.deleteById(apContext.createdId);
+      }
+    });
+  });
+
+  test.describe('Deletion', () => {
+    let body: AutomationProcessResponse;
+
+    test.beforeEach(async ({ apClient, apContext }) => {
+      ({ body } = await apClient.create(apContext.apData));
+    });
+    test('should delete via check and delete in row', async ({ apPage }) => {
+      await apPage.deleteAutomationProcess(body.name);
+      await apPage.table.expectRowNotToExist(body.name);
+    });
+    test('should delete AP via search by name, check first, delete in row', async ({ apPage }) => {
+      await apPage.deleteAutomationProcess(body.name, { search: true, rowIndex: 0 });
+      await apPage.table.expectToBeEmpty();
+    });
+    test('should delete AP via search by name, check all, delete in page header', async ({ apPage }) => {
+      await apPage.deleteAutomationProcess(body.name, { search: true, checkAll: true });
+      await apPage.table.expectToBeEmpty();
+    });
+  });
+});
