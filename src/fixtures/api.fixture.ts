@@ -3,7 +3,7 @@ import { test as base, request, APIRequestContext } from '@playwright/test';
 import { AutomationProcessClient, UsersClient, AuthClient } from '@api/clients';
 import { getEnv } from '@config/env';
 import { CreateAPRequest } from '@api/models/automationProcess.model';
-import { createUniqueAPData } from 'src/utils/apDataFactory';
+import { createUniqueAPData } from 'src/factories/apDataFactory';
 
 type AutomationProcessContext = {
   apData: CreateAPRequest;

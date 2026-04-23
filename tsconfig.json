@@ -16,7 +16,7 @@
       "@onliner/*": ["src/apps/onliner/*"],
       "@fixtures/*": ["src/fixtures/*"],
       "@api/*": ["src/api/*"],
-      "@utils/*": ["src/utils/*"],
+      "@factories/*": ["src/factories/*"],
       "@easyrpa/support/*": ["tests/easyrpa/bdd/support/*"],
       "@easyrpa/test-data/*": ["tests/easyrpa/test-data/*"]
     }

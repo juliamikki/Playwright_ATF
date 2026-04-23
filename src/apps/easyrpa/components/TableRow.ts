@@ -1,14 +1,13 @@
 import { Locator, expect } from '@playwright/test';
 import { BaseComponent } from '@easyrpa/components';
-import { Checkbox } from '@easyrpa/elements';
 
 export class TableRow extends BaseComponent {
   constructor(locator: Locator) {
     super(locator);
   }
 
-  private get checkbox(): Checkbox {
-    return new Checkbox(this.root.getByRole('checkbox'));
+  private get checkbox(): Locator {
+    return this.root.getByRole('checkbox');
   }
 
   private get link(): Locator {
