@@ -27,23 +27,23 @@ test.describe('Automation Process', () => {
   });
 
   test.describe('Update', () => {
-    let body: AutomationProcessResponse;
+    let createBody: AutomationProcessResponse;
 
     test.beforeEach(async ({ apClient, apContext }) => {
-      ({ body } = await apClient.create(apContext.apData));
-      apContext.createdAPId = body.id;
+      ({ createBody } = await apClient.create(apContext.apData));
+      apContext.createdAPId = createBody.id;
     });
 
     test('should edit AP name', async ({ apPage, apContext }) => {
       const newName = `[edited] ${apContext.apData.name}`;
-      const { name } = await apPage.updateAutomationProcess(body.name, { name: newName });
+      const { name } = await apPage.updateAutomationProcess(createBody.name, { name: newName });
       await apPage.navigateBackAndWaitPage();
       await apPage.table.expectRowToExist(name);
     });
 
     test('should edit AP description', async ({ apPage, apContext }) => {
       const newDescription = `[edited] ${apContext.apData.description}`;
-      await apPage.updateAutomationProcess(body.name, { description: newDescription });
+      await apPage.updateAutomationProcess(createBody.name, { description: newDescription });
       await apPage.navigateBackAndWaitPage();
       await apPage.table.expectRowToExist(newDescription);
     });
@@ -56,21 +56,21 @@ test.describe('Automation Process', () => {
   });
 
   test.describe('Deletion', () => {
-    let body: AutomationProcessResponse;
+    let createBody: AutomationProcessResponse;
 
     test.beforeEach(async ({ apClient, apContext }) => {
-      ({ body } = await apClient.create(apContext.apData));
+      ({ createBody } = await apClient.create(apContext.apData));
     });
     test('should delete via check and delete in row', async ({ apPage }) => {
-      await apPage.deleteAutomationProcess(body.name);
-      await apPage.table.expectRowNotToExist(body.name);
+      await apPage.deleteAutomationProcess(createBody.name);
+      await apPage.table.expectRowNotToExist(createBody.name);
     });
     test('should delete AP via search by name, check first, delete in row', async ({ apPage }) => {
-      await apPage.deleteAutomationProcess(body.name, { search: true, rowIndex: 0 });
+      await apPage.deleteAutomationProcess(createBody.name, { search: true, rowIndex: 0 });
       await apPage.table.expectToBeEmpty();
     });
     test('should delete AP via search by name, check all, delete in page header', async ({ apPage }) => {
-      await apPage.deleteAutomationProcess(body.name, { search: true, checkAll: true });
+      await apPage.deleteAutomationProcess(createBody.name, { search: true, checkAll: true });
       await apPage.table.expectToBeEmpty();
     });
   });

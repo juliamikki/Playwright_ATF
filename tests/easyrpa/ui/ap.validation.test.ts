@@ -3,13 +3,13 @@ import { AutomationProcessResponse, CreateAPRequest } from '@api/models/automati
 import { testFiles } from '@easyrpa/test-data/files/invalid';
 
 test.describe('Automation Process - Validation (business rules)', () => {
-  let body: AutomationProcessResponse;
+  let createBody: AutomationProcessResponse;
   let data: CreateAPRequest;
 
   test.beforeEach(async ({ apClient, apContext }) => {
     data = apContext.apData;
-    ({ body } = await apClient.create(data));
-    apContext.createdAPId = body.id;
+    ({ createBody } = await apClient.create(data));
+    apContext.createdAPId = createBody.id;
   });
 
   test('should prevent creation of automation process with duplicate name', async ({ apPage }) => {
