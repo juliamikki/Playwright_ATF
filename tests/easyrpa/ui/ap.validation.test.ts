@@ -9,7 +9,7 @@ test.describe('Automation Process - Validation (business rules)', () => {
   test.beforeEach(async ({ apClient, apContext }) => {
     data = apContext.apData;
     ({ body } = await apClient.create(data));
-    apContext.createdId = body.id;
+    apContext.createdAPId = body.id;
   });
 
   test('should prevent creation of automation process with duplicate name', async ({ apPage }) => {
@@ -21,8 +21,8 @@ test.describe('Automation Process - Validation (business rules)', () => {
   });
 
   test.afterEach(async ({ apContext, apClient }) => {
-    if (apContext.createdId) {
-      await apClient.deleteById(apContext.createdId);
+    if (apContext.createdAPId) {
+      await apClient.deleteById(apContext.createdAPId);
     }
   });
 });
@@ -31,7 +31,7 @@ test.describe('Automation Process - Validation (navigation)', () => {
   test('should discard unsaved changes when navigating back to list', async ({ apPage, apContext }) => {
     await apPage.openCreateForm();
     await apPage.fillAutomationProcessForm(apContext.apData);
-    await apPage.clickBackToList();
+    await apPage.navigateBack();
     await apPage.discardUnsavedChanges();
     await apPage.table.expectRowNotToExist(apContext.apData.name);
   });

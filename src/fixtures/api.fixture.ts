@@ -8,7 +8,8 @@ import { createUniqueAPData } from 'src/utils/apDataFactory';
 type AutomationProcessContext = {
   apData: CreateAPRequest;
   apDataJson?: string;
-  createdId?: number;
+  createdAPId?: number;
+  createdRunId?: number;
 };
 
 type ApiFixtures = {

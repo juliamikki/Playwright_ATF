@@ -13,25 +13,33 @@ export enum AutomationProcessTabs {
   Notifications = 'Notifications'
 }
 
+export enum AutomationProcessRunTabs {
+  History = 'History',
+  EventLog = 'Event Log',
+  Metrics = 'Metrics'
+}
+
 export class AutomationProcessesPage extends BasePage {
   protected headerText = 'Automation Processes';
-  readonly tabContainer = new TabContainer<AutomationProcessTabs>(this.page);
+  readonly tabContainer = new TabContainer<AutomationProcessTabs | AutomationProcessRunTabs>(this.page);
 
-  private readonly DIALOG_HEADERS = {
+  protected readonly DIALOG_HEADERS = {
     uploadJson: 'Please, provide Automation Process JSON',
     confirmAction: 'Please, confirm your action'
   };
 
-  private readonly DIALOG_MESSAGES = {
+  protected readonly DIALOG_MESSAGES = {
     update: 'Are you sure you want to update selected automation process?',
     delete: 'Are you sure you want to delete selected automation process?',
-    leave: 'Are you sure you want to leave this page? All unsaved data will be lost.'
+    leave: 'Are you sure you want to leave this page? All unsaved data will be lost.',
+    stop: 'Are you sure you want to stop all active runs?'
   };
 
-  private readonly SUCCESS_MESSAGES = {
+  protected readonly SUCCESS_MESSAGES = {
     created: 'New automation process was successfully created!',
     updated: 'Automation process was successfully updated!',
-    deleted: 'Automation process was successfully deleted!'
+    deleted: 'Automation process was successfully deleted!',
+    stopped: 'Stop request has been sent'
   };
 
   constructor(page: Page) {
@@ -65,13 +73,13 @@ export class AutomationProcessesPage extends BasePage {
     await this.dialog.expectHeader(this.DIALOG_HEADERS.uploadJson);
   }
 
-  private async openAutomationProcess(apName: string): Promise<void> {
+  async openAutomationProcess(apName: string): Promise<void> {
     await this.table.getRowByCellValue(apName).clickLink();
     await this.expectHeader('Automation Process Details');
     await this.tabContainer.expectTabToBeActive(AutomationProcessTabs.Runs);
   }
 
-  private async confirmDialog(action: 'Update' | 'Delete' | "Don't save", message: string): Promise<void> {
+  protected async confirmDialog(action: 'Update' | 'Delete' | 'Stop' | "Don't save", message: string): Promise<void> {
     await this.dialog.expectHeader(this.DIALOG_HEADERS.confirmAction);
     await this.dialog.expectMessage(message);
     await this.dialog.clickButton(action);
@@ -90,12 +98,12 @@ export class AutomationProcessesPage extends BasePage {
     await this.message.expectTextAndClose(this.SUCCESS_MESSAGES.created);
     await this.expectHeader('Automation Process Details');
 
-    const id = this.extractCreatedId(this.page.url());
+    const id = this.extractAPId(this.page.url());
     const name = await this.getInput('Name');
     return { id: Number(id), name };
   }
 
-  private extractCreatedId(url: string) {
+  private extractAPId(url: string) {
     const match = url.match(/automation-processes\/(\d+)\/details/);
     if (!match?.[1]) {
       throw new Error(`Failed to extract Automation Process ID from URL: ${url}`);
@@ -187,5 +195,47 @@ export class AutomationProcessesPage extends BasePage {
     await row.clickButton('Delete');
     await this.confirmDialog('Delete', this.DIALOG_MESSAGES.delete);
     await this.message.expectTextAndClose(this.SUCCESS_MESSAGES.deleted);
+  }
+
+  //RUN
+
+  async startRun(): Promise<{ id: string }> {
+    await this.clickButton('Start run');
+    await this.expectHeader('Run');
+    await this.tabContainer.expectTabToBeActive(AutomationProcessRunTabs.EventLog);
+    const id = this.extractRunId(this.page.url());
+    return { id };
+  }
+
+  async stopRunRecord(runId: string): Promise<void> {
+    const row = this.table.getRowByCellValue(runId);
+    await row.clickButton('Stop');
+    await this.message.expectTextAndClose(this.SUCCESS_MESSAGES.stopped);
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  async stopRun(runId?: string): Promise<void> {
+    await this.clickButton('Stop');
+    await this.message.expectTextAndClose(this.SUCCESS_MESSAGES.stopped);
+  }
+
+  async openRun(runId: string): Promise<void> {
+    await this.table.getRowByCellValue(runId).clickLink();
+    await this.expectHeader('Run');
+    await this.tabContainer.expectTabToBeActive(AutomationProcessRunTabs.History);
+  }
+
+  private extractRunId(url: string): string {
+    const match = url.match(/run\/(\d+)/);
+    if (!match?.[1]) {
+      throw new Error(`Failed to extract Run ID from URL: ${url}`);
+    }
+    return match[1];
+  }
+
+  async expectRunStatus(id: string, status: string): Promise<void> {
+    await this.table.expectRowToExist(id);
+    const row = this.table.getRowByCellValue(id);
+    await row.expectCellValueByHeader('Status', status);
   }
 }

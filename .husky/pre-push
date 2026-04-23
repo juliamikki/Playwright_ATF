@@ -1,8 +1,5 @@
 echo "Running Easyrpa tests before push..."
 
-#npm run test:onliner:smoke
-#npm run test:easyrpa:smoke  
-#npm run test:easyrpa:bdd:smoke
-#npm run test:easyrpa:api:smoke
+npm run test:easyrpa:smoke  
 
 echo "Pre-push passed ✅"

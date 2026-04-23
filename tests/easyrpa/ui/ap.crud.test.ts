@@ -6,22 +6,22 @@ test.describe('Automation Process', () => {
     test('should create via from input form', async ({ apPage, apContext }) => {
       await apPage.createAutomationProcess(apContext.apData);
       const { id } = await apPage.expectAutomationProcessCreated();
-      apContext.createdId = id;
-      await apPage.goBackToList();
+      apContext.createdAPId = id;
+      await apPage.navigateBackAndWaitPage();
       await apPage.table.expectRowToExist(apContext.apData.name);
     });
 
     test('should create via file upload', async ({ apPage, apContext }) => {
       await apPage.uploadAutomationProcessJSON(apContext.apData);
       const { id } = await apPage.expectAutomationProcessCreated();
-      apContext.createdId = id;
-      await apPage.goBackToList();
+      apContext.createdAPId = id;
+      await apPage.navigateBackAndWaitPage();
       await apPage.table.expectRowToExist(apContext.apData.name);
     });
 
     test.afterEach(async ({ apContext, apClient }) => {
-      if (apContext.createdId) {
-        await apClient.deleteById(apContext.createdId);
+      if (apContext.createdAPId) {
+        await apClient.deleteById(apContext.createdAPId);
       }
     });
   });
@@ -31,26 +31,26 @@ test.describe('Automation Process', () => {
 
     test.beforeEach(async ({ apClient, apContext }) => {
       ({ body } = await apClient.create(apContext.apData));
-      apContext.createdId = body.id;
+      apContext.createdAPId = body.id;
     });
 
     test('should edit AP name', async ({ apPage, apContext }) => {
       const newName = `[edited] ${apContext.apData.name}`;
       const { name } = await apPage.updateAutomationProcess(body.name, { name: newName });
-      await apPage.goBackToList();
+      await apPage.navigateBackAndWaitPage();
       await apPage.table.expectRowToExist(name);
     });
 
     test('should edit AP description', async ({ apPage, apContext }) => {
       const newDescription = `[edited] ${apContext.apData.description}`;
       await apPage.updateAutomationProcess(body.name, { description: newDescription });
-      await apPage.goBackToList();
+      await apPage.navigateBackAndWaitPage();
       await apPage.table.expectRowToExist(newDescription);
     });
 
     test.afterEach(async ({ apContext, apClient }) => {
-      if (apContext.createdId) {
-        await apClient.deleteById(apContext.createdId);
+      if (apContext.createdAPId) {
+        await apClient.deleteById(apContext.createdAPId);
       }
     });
   });

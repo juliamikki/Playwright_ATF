@@ -1,10 +1,11 @@
 import { test as base } from '@fixtures/api.fixture';
-import { LoginPage, HomePage, AutomationProcessesPage } from '@easyrpa/pages';
+import { LoginPage, HomePage, AutomationProcessesPage, RunsManagementPage } from '@easyrpa/pages';
 import { getUser, UserKey } from '@easyrpa/test-data/users';
 
 type EasyRPAFixtures = {
   homePage: HomePage;
   apPage: AutomationProcessesPage;
+  runsPage: RunsManagementPage;
 };
 
 const DEFAULT_USER: UserKey = 'adminUserDEV';
@@ -26,6 +27,11 @@ export const test = base.extend<EasyRPAFixtures>({
 
     const apPage = new AutomationProcessesPage(page);
     await use(apPage);
+  },
+
+  runsPage: async ({ page }, use) => {
+    const runsPage = new RunsManagementPage(page);
+    await use(runsPage);
   }
 });
 

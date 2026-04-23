@@ -20,7 +20,7 @@ export abstract class BasePage {
   }
 
   private button(buttonText: string): Locator {
-    return this.page.locator('button', { hasText: buttonText });
+    return this.page.getByText(buttonText, { exact: true });
   }
 
   private inputByLabel(label: string): Locator {
@@ -57,13 +57,17 @@ export abstract class BasePage {
     return this.inputByLabel(label).inputValue();
   }
 
-  async goBackToList(): Promise<void> {
+  async navigateBackAndWaitPage(): Promise<void> {
     await this.page.getByTestId('KeyboardBackspaceIcon').click();
     await this.waitForExactPage();
   }
 
-  async clickBackToList(): Promise<void> {
+  async navigateBack(): Promise<void> {
     await this.page.getByTestId('KeyboardBackspaceIcon').click();
+  }
+
+  async refreshPage(): Promise<void> {
+    await this.clickButton('Refresh');
   }
 
   async waitForExactPage(): Promise<void> {
