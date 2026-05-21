@@ -5,6 +5,7 @@ import { getEnv } from '@config/env';
 import { CreateAPRequest } from '@api/models/automationProcess.model';
 import { createUniqueAPData } from 'src/factories/apDataFactory';
 
+//TODO : scope worker
 type AutomationProcessContext = {
   apData: CreateAPRequest;
   apDataJson?: string;

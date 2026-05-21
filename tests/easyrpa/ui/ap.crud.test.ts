@@ -3,7 +3,7 @@ import { AutomationProcessResponse } from '@api/models/automationProcess.model';
 
 test.describe('Automation Process', () => {
   test.describe('Creation', () => {
-    test('should create via from input form', async ({ apPage, apContext }) => {
+    test('should create AP via input form', async ({ apPage, apContext }) => {
       await apPage.createAutomationProcess(apContext.apData);
       const { id } = await apPage.expectAutomationProcessCreated();
       apContext.createdAPId = id;
@@ -11,7 +11,7 @@ test.describe('Automation Process', () => {
       await apPage.table.expectRowToExist(apContext.apData.name);
     });
 
-    test('should create via file upload', async ({ apPage, apContext }) => {
+    test('should create AP via file upload', async ({ apPage, apContext }) => {
       await apPage.uploadAutomationProcessJSON(apContext.apData);
       const { id } = await apPage.expectAutomationProcessCreated();
       apContext.createdAPId = id;
@@ -61,7 +61,7 @@ test.describe('Automation Process', () => {
     test.beforeEach(async ({ apClient, apContext }) => {
       ({ createBody } = await apClient.create(apContext.apData));
     });
-    test('should delete via check and delete in row', async ({ apPage }) => {
+    test('should delete AP via check and delete in row', async ({ apPage }) => {
       await apPage.deleteAutomationProcess(createBody.name);
       await apPage.table.expectRowNotToExist(createBody.name);
     });

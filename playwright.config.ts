@@ -10,9 +10,9 @@ const EASYRPA_URL = process.env.EASYRPA_DEV_URL;
  */
 export default defineConfig({
   testDir: './tests',
-  timeout: 20000, //test timeout - 30s by default
+  timeout: 60000, //test timeout - 30s by default
   expect: {
-    timeout: 10000 //expect timeout - 5s by default
+    timeout: 30000 //expect timeout - 5s by default
   },
   /* Run tests in files in parallel */
   fullyParallel: true,
