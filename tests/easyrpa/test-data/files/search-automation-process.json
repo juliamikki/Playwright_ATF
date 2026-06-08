@@ -1,0 +1,15 @@
+{
+  "pageNumber": 0,
+  "pageSize": 200,
+  "direction": "ASC",
+  "sortColumns": ["id"],
+  "offset": 0,
+  "filter": {
+    "type": "matcher",
+    "key": "",
+    "value": "",
+    "predicate": "CONTAINS",
+    "empty": false,
+    "array": true
+  }
+}

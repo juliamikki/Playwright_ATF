@@ -1,0 +1,13 @@
+{
+  "firstName": "Test",
+  "lastName": "Automation",
+  "email": "test.user@example.com",
+  "username": "testautomation10",
+  "password": "Test_Password123",
+  "groups": [
+    {
+      "id": 1,
+      "name": "Administrators"
+    }
+  ]
+}

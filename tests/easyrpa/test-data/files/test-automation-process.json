@@ -1,0 +1,21 @@
+{
+  "name": "TEST Automation Process",
+  "description": "This is an automation process for testing purposes.",
+  "moduleClass": "eu.ibagroup.easyrpa.taskexecution.ExecuteDemoAp",
+  "repositoryId": "eu.ibagroup:kb-short-samples:jar:3.2.0",
+  "dedicated": false,
+  "capabilities": [],
+  "dedicatedNodes": [],
+  "params": [],
+  "input": {
+    "parent": [],
+    "variables": {},
+    "_id": "852331b6-715b-4c77-b776-9784cb4a9f07"
+  },
+  "groups": [
+    {
+      "id": 1,
+      "name": "Administrators"
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+echo "Running formatting and lint checks..."
+
+npm run code:check
+npm run code:format
+
+echo "Pre-commit passed ✅"
