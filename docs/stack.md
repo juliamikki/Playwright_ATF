@@ -4,12 +4,15 @@
 
 - **@playwright/test** : used for end-to-end browser automation.
 - **@cucumber/cucumber** : enables BDD-style testing with Gherkin syntax.
+- **@cucumber/pretty-formatter** : produces readable, colorized Cucumber console output.
+- **@playwright/mcp** : Playwright Model Context Protocol server (browser automation via AI tooling).
 - **tsx** : runs TypeScript directly without pre-compilation (used for Cucumber execution).
 
 ## Reporting
 
 - **allure-playwright** : integrates Playwright with Allure test report.
 - **allure-cucumberjs** : integrates Allure reporting with Cucumber tests.
+- **multiple-cucumber-html-reporter** : generates a standalone HTML report from Cucumber JSON results.
 
 ## TypeScript
 
@@ -33,3 +36,4 @@
 - **husky** : adds Git hooks (e.g., pre-commit checks).
 - **rimraf** : cross-platform file deletion (used in scripts).
 - **cross-env** : allows setting environment variables in a cross-platform way (used in scripts).
+- **dotenv** : loads environment variables from a `.env` file into `process.env` (URLs, credentials, API secrets).

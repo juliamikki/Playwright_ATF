@@ -13,7 +13,6 @@
     "paths": {
       "@config/*": ["src/config/*"],
       "@easyrpa/*": ["src/apps/easyrpa/*"],
-      "@onliner/*": ["src/apps/onliner/*"],
       "@fixtures/*": ["src/fixtures/*"],
       "@api/*": ["src/api/*"],
       "@factories/*": ["src/factories/*"],

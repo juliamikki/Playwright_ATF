@@ -1,9 +1,9 @@
 {
   "firstName": "Test",
   "lastName": "Automation",
-  "email": "jshostak@ibagroup.eu",
+  "email": "test.user@example.com",
   "username": "testautomation10",
-  "password": "testautomation10",
+  "password": "Test_Password123",
   "groups": [
     {
       "id": 1,
