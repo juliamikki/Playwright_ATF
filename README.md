@@ -1,5 +1,14 @@
 # Playwright Automation Test Framework
 
+![Playwright](https://img.shields.io/badge/Playwright-1.58-2EAD33?logo=playwright&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6?logo=typescript&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-20+-5FA04E?logo=nodedotjs&logoColor=white)
+![Cucumber](https://img.shields.io/badge/Cucumber-12-23D96C?logo=cucumber&logoColor=white)
+![Allure](https://img.shields.io/badge/Allure-3-FF5C5C?logo=qameta&logoColor=white)
+![ESLint](https://img.shields.io/badge/ESLint-10-4B32C3?logo=eslint&logoColor=white)
+![Prettier](https://img.shields.io/badge/Prettier-3-F7B93E?logo=prettier&logoColor=black)
+![Platforms](https://img.shields.io/badge/Platforms-Chromium%20%7C%20Firefox%20%7C%20WebKit%20%7C%20Android%20%7C%20iOS-8A2BE2)
+
 A TypeScript-based end-to-end test automation framework built on [Playwright](https://playwright.dev/), targeting the **EasyRPA** application. It combines UI, API, and BDD testing in a single, well-structured project with rich reporting and cross-browser/mobile coverage.
 
 ## Table of Contents
