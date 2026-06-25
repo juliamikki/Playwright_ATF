@@ -25,6 +25,8 @@ npm run test:easyrpa:api          # API tests (easyrpa-api project)
 npm run test:easyrpa:bdd          # Cucumber/Gherkin scenarios
 npm run test:easyrpa:crossbrowser # Chrome + Firefox + Edge + WebKit
 npm run test:easyrpa:smoke        # @smoke-tagged UI tests, headless
+npm run test:easyrpa:api:smoke    # @smoke-tagged API tests, headless
+npm run test:easyrpa:mobile:smoke # @smoke-tagged UI tests on Android + iOS emulators
 
 # Debug
 npx playwright test --project=easyrpa-chrome --headed
@@ -48,18 +50,19 @@ The framework is layered, and **fixtures are the wiring** that compose the layer
 
 **Fixture composition is the key concept.** `easyrpa.fixture.ts` extends `api.fixture.ts`, so UI tests receive *both* Page Objects and API clients in the same test:
 
-- `api.fixture.ts` provides `apiContext`, `authToken` (fetched once via `AuthClient` client-credentials flow), the API clients (`apClient`, `usersClient`), and `apContext` — a per-test data bag (`createUniqueAPData()`) that carries `createdAPId`/`createdRunId` between setup and teardown.
-- `easyrpa.fixture.ts` adds `homePage` (logs in as `DEFAULT_USER = adminUserDEV`), `apPage` (navigates to the Automation Processes module), and `runsPage`. Requesting `homePage`/`apPage` triggers the login + navigation automatically.
+- `api.fixture.ts` provides `apiContext`, `authToken` (fetched once via `AuthClient` client-credentials flow), the API clients (`apClient`, `usersClient`, `dsClient`), and context bags `apContext` (`createUniqueAPData()`, carries `createdAPId`/`createdRunId`) and `dsContext` (`createUniqueDataStoreData()`, carries `createdDataStoreId`).
+- `easyrpa.fixture.ts` adds `homePage` (logs in as `DEFAULT_USER = adminUserDEV`), `apPage` (navigates to the Automation Processes module), `runsPage`, and `dataStorePage`. Requesting `homePage`/`apPage`/`dataStorePage` triggers login + navigation automatically.
 
-**API-driven test data is the dominant pattern.** UI tests create/delete data through API clients for speed and isolation: `apClient.create(...)` in `beforeEach`, assert via the UI, then `apClient.deleteById(apContext.createdAPId)` in `afterEach`. See `tests/easyrpa/ui/ap.crud.test.ts` for the canonical example.
+**API-driven test data is the dominant pattern.** UI tests create/delete data through API clients for speed and isolation: `apClient.create(...)` in `beforeEach`, assert via the UI, then `apClient.deleteById(apContext.createdAPId)` in `afterEach`. See `tests/easyrpa/ui/ap.crud.test.ts` for the canonical example. Some flows require UI creation (e.g. file upload for Data Stores in `ds.crud.test.ts`) — in those cases creation happens via the page object and deletion still goes through the API client in `afterEach`.
 
 **Layers:**
 - `src/apps/easyrpa/pages/` — Page Objects extend `BasePage` (shared spinner waiting, header assertions, generic input/button helpers). Pages compose components.
-- `src/apps/easyrpa/components/` — reusable UI widgets (`Table`, `Dialog`, `NavigationMenu`, `SearchField`, ...) extend `BaseComponent` (constructed from a root `Locator`).
+- `src/apps/easyrpa/components/` — reusable UI widgets (`Table`, `TableRow`, `Dialog`, `SidePanel`, `Message`, `NavigationMenu`, `SearchField`, `TabContainer`, ...) extend `BaseComponent` (constructed from a root `Locator`).
 - `src/api/clients/` — typed clients extend `BaseApiClient` (which holds the bearer token and logs every request/response). `AuthClient` is separate (no token yet).
 - `src/api/models/` & `src/api/routes/endpoints.ts` — request/response types and endpoint URLs.
-- `src/factories/` — `createUniqueAPData()` generates unique, isolated test data.
+- `src/factories/` — `createUniqueAPData()` and `createUniqueDataStoreData()` generate unique, isolated test data.
 - `tests/easyrpa/test-data/users.ts` — user registry; passwords are lazy getters reading env vars, so credentials are only required when a user is actually used.
+- `tests/easyrpa/test-data/files/` — JSON fixtures used for file-upload flows (e.g. `test-data-store.json`, `test-ds-records.json`, `test-automation-process.json`).
 
 **BDD is a separate runtime.** Cucumber (`cucumber.config.cjs`) does *not* use Playwright fixtures. `tests/easyrpa/bdd/support/hooks.ts` manually launches the browser per scenario and `CustomWorld` holds the shared `page`/`context`. Steps live in `tests/easyrpa/bdd/steps/`. Run via `tsx`, not the Playwright runner.
 
