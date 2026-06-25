@@ -16,7 +16,7 @@ export class UsersClient extends BaseApiClient {
 
   async createAndCleanup(
     data: CreateUserRequest
-  ): Promise<{ response: APIResponse; cleanup: () => Promise<APIResponse> }> {
+  ): Promise<{ response: APIResponse; cleanup: () => Promise<APIResponse | undefined> }> {
     const { response, body } = await this.create(data);
     return {
       response,
@@ -24,7 +24,10 @@ export class UsersClient extends BaseApiClient {
     };
   }
 
-  async deleteById(id: number): Promise<APIResponse> {
+  async deleteById(id?: number): Promise<APIResponse | undefined> {
+    if (!id) {
+      return undefined;
+    }
     const response = await this.delete(`${endpoints.users}/${id}`);
     return response;
   }

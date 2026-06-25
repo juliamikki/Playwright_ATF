@@ -5,8 +5,8 @@ test-results/
 allure-results/
 reports/*
 .auth/
-.github/
 .vscode/
 .cache/
 configs/env.ts
 .env
+.playwright-mcp

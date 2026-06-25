@@ -1,5 +1,5 @@
 {
-  "name": "TEST Automation Process",
+  "name": "test_automation_process",
   "description": "This is an automation process for testing purposes.",
   "moduleClass": "eu.ibagroup.easyrpa.taskexecution.ExecuteDemoAp",
   "repositoryId": "eu.ibagroup:kb-short-samples:jar:3.2.0",

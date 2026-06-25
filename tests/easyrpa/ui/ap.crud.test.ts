@@ -20,9 +20,7 @@ test.describe('Automation Process', () => {
     });
 
     test.afterEach(async ({ apContext, apClient }) => {
-      if (apContext.createdAPId) {
-        await apClient.deleteById(apContext.createdAPId);
-      }
+      await apClient.deleteById(apContext.createdAPId);
     });
   });
 
@@ -49,9 +47,7 @@ test.describe('Automation Process', () => {
     });
 
     test.afterEach(async ({ apContext, apClient }) => {
-      if (apContext.createdAPId) {
-        await apClient.deleteById(apContext.createdAPId);
-      }
+      await apClient.deleteById(apContext.createdAPId);
     });
   });
 

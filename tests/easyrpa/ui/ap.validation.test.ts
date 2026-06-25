@@ -21,9 +21,7 @@ test.describe('Automation Process - Validation (business rules)', () => {
   });
 
   test.afterEach(async ({ apContext, apClient }) => {
-    if (apContext.createdAPId) {
-      await apClient.deleteById(apContext.createdAPId);
-    }
+    await apClient.deleteById(apContext.createdAPId);
   });
 });
 

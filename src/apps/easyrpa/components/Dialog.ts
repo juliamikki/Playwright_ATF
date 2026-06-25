@@ -26,13 +26,13 @@ export class Dialog extends BaseComponent {
     await this.button(name).click();
   }
 
-  async uploadFile(filePath: string, fileContent?: string): Promise<void> {
+  async uploadFile(filePath: string, fileContent?: string, mimeType: string = 'application/json'): Promise<void> {
     const inputField = this.root.locator('input[type="file"]');
 
     if (fileContent) {
       await inputField.setInputFiles({
         name: filePath,
-        mimeType: 'application/json',
+        mimeType,
         buffer: Buffer.from(fileContent)
       });
     } else {

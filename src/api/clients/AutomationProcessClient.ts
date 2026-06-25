@@ -24,7 +24,7 @@ export class AutomationProcessClient extends BaseApiClient {
   async createAndCleanup(data: CreateAPRequest): Promise<{
     createResponse: APIResponse;
     createBody: AutomationProcessResponse;
-    cleanup: () => Promise<APIResponse>;
+    cleanup: () => Promise<APIResponse | undefined>;
   }> {
     const { createResponse, createBody } = await this.create(data);
     return {
@@ -34,7 +34,10 @@ export class AutomationProcessClient extends BaseApiClient {
     };
   }
 
-  async deleteById(id: number): Promise<APIResponse> {
+  async deleteById(id?: number): Promise<APIResponse | undefined> {
+    if (!id) {
+      return undefined;
+    }
     const response = await this.delete(`${endpoints.automationProcesses}/${id}`);
     return response;
   }

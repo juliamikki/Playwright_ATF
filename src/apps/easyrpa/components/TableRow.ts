@@ -32,6 +32,10 @@ export class TableRow extends BaseComponent {
     await expect(this.getCellByIndex(index)).toHaveText(value);
   }
 
+  async openSidePanel(): Promise<void> {
+    await this.root.click();
+  }
+
   async check(): Promise<void> {
     await this.checkbox.check();
   }
