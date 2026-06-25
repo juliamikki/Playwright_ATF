@@ -3,6 +3,7 @@ export { NavigationMenu } from './NavigationMenu';
 export { Table } from './Table';
 export { TableRow } from './TableRow';
 export { Dialog } from './Dialog';
+export { SidePanel } from './SidePanel';
 export { Message } from './Message';
 export { SearchField } from './SearchField';
 export { TabContainer } from './TabContainer';

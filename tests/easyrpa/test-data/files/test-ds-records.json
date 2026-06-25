@@ -1,0 +1,5 @@
+[
+  { "title": "The Pragmatic Programmer", "author": "Andrew Hunt", "year": 1999, "genre": "Software" },
+  { "title": "Clean Code", "author": "Robert C. Martin", "year": 2008, "genre": "Software" },
+  { "title": "The Mythical Man-Month", "author": "Fred Brooks", "year": 1975, "genre": "Software" }
+]

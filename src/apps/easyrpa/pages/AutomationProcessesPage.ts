@@ -2,7 +2,7 @@ import { Page } from '@playwright/test';
 import { BasePage } from '@easyrpa/pages';
 import { TabContainer } from '@easyrpa/components';
 import { CreateAPRequest } from '@api/models/automationProcess.model';
-import { convertAPDataToJson } from 'src/factories/apDataFactory';
+import { convertAPDataToJson } from '@factories/apDataFactory';
 
 export enum AutomationProcessTabs {
   Details = 'Details',

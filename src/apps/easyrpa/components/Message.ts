@@ -1,4 +1,4 @@
-import { Page, Locator, expect } from '@playwright/test';
+import { Page, expect } from '@playwright/test';
 import { BaseComponent } from '@easyrpa/components';
 
 export class Message extends BaseComponent {
@@ -6,12 +6,9 @@ export class Message extends BaseComponent {
     super(page.locator('.SnackbarContent-root'));
   }
 
-  private get closeButton(): Locator {
-    return this.root.getByTestId('CloseIcon');
-  }
-
   async expectTextAndClose(messageText: string): Promise<void> {
-    await expect(this.root).toHaveText(messageText);
-    await this.closeButton.click();
+    const snackbar = this.root.filter({ hasText: messageText });
+    await expect(snackbar).toBeVisible();
+    await snackbar.getByTestId('CloseIcon').click();
   }
 }

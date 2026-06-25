@@ -1,11 +1,12 @@
 /* eslint-disable no-empty-pattern */
 import { test as base, request, APIRequestContext } from '@playwright/test';
-import { AutomationProcessClient, UsersClient, AuthClient } from '@api/clients';
+import { AutomationProcessClient, UsersClient, AuthClient, DataStoreClient } from '@api/clients';
 import { getEnv } from '@config/env';
 import { CreateAPRequest } from '@api/models/automationProcess.model';
-import { createUniqueAPData } from 'src/factories/apDataFactory';
+import { CreateDataStoreData } from '@api/models/dataStore.model';
+import { createUniqueAPData } from '@factories/apDataFactory';
+import { createUniqueDataStoreData } from '@factories/dataStoreDataFactory';
 
-//TODO : scope worker
 type AutomationProcessContext = {
   apData: CreateAPRequest;
   apDataJson?: string;
@@ -13,12 +14,19 @@ type AutomationProcessContext = {
   createdRunId?: number;
 };
 
+type DataStoreContext = {
+  dsData: CreateDataStoreData;
+  createdDataStoreId?: number;
+};
+
 type ApiFixtures = {
   apiContext: APIRequestContext;
   authToken: string;
   apClient: AutomationProcessClient;
   usersClient: UsersClient;
+  dsClient: DataStoreClient;
   apContext: AutomationProcessContext;
+  dsContext: DataStoreContext;
 };
 
 export const test = base.extend<ApiFixtures>({
@@ -41,9 +49,19 @@ export const test = base.extend<ApiFixtures>({
     const client = new UsersClient(apiContext, authToken);
     await use(client);
   },
+  dsClient: async ({ apiContext, authToken }, use) => {
+    const client = new DataStoreClient(apiContext, authToken);
+    await use(client);
+  },
   apContext: async ({}, use) => {
     const context: AutomationProcessContext = {
       apData: createUniqueAPData()
+    };
+    await use(context);
+  },
+  dsContext: async ({}, use) => {
+    const context: DataStoreContext = {
+      dsData: createUniqueDataStoreData()
     };
     await use(context);
   }

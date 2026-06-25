@@ -18,10 +18,7 @@ test.describe('Automation Process Runs', () => {
     });
 
     test.afterEach(async ({ apContext, apClient }) => {
-      //TODO: to move inside method
-      if (apContext.createdAPId) {
-        await apClient.deleteById(apContext.createdAPId);
-      }
+      await apClient.deleteById(apContext.createdAPId);
     });
   });
 
@@ -75,9 +72,7 @@ test.describe('Automation Process Runs', () => {
     });
 
     test.afterEach(async ({ apContext, apClient }) => {
-      if (apContext.createdAPId) {
-        await apClient.deleteById(apContext.createdAPId);
-      }
+      await apClient.deleteById(apContext.createdAPId);
     });
   });
 });

@@ -1,10 +1,14 @@
 import { test } from '@fixtures/api.fixture';
 import { expect } from '@playwright/test';
-import user from '@easyrpa/test-data/files/test-user.json' assert { type: 'json' };
+import user from '@easyrpa/test-data/files/test-user.json' with { type: 'json' };
 
 test('create automation process @smoke', async ({ apClient, apContext }) => {
-  const { createResponse, cleanup } = await apClient.createAndCleanup(apContext.apData);
+  const { createResponse, createBody, cleanup } = await apClient.createAndCleanup(apContext.apData);
+  
   expect(createResponse.status()).toBe(200);
+  expect(createBody.name).toBe(apContext.apData.name);
+  expect(createBody.description).toBe(apContext.apData.description);
+  
   await cleanup();
 });
 

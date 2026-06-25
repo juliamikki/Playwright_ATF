@@ -1,7 +1,7 @@
 import { randomUUID } from 'node:crypto';
 import { CreateAPRequest, SearchAPRequest } from '@api/models/automationProcess.model';
-import baseData from '@easyrpa/test-data/files/test-automation-process.json' assert { type: 'json' };
-import searchData from '@easyrpa/test-data/files/search-automation-process.json' assert { type: 'json' };
+import baseData from '@easyrpa/test-data/files/test-automation-process.json' with { type: 'json' };
+import searchData from '@easyrpa/test-data/files/search-automation-process.json' with { type: 'json' };
 
 type Predicate = 'CONTAINS' | 'EQUALS';
 
