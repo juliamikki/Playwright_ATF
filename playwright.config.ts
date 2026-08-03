@@ -98,7 +98,13 @@ export default defineConfig({
     },
     {
       name: 'easyrpa-api',
-      testDir: './tests/easyrpa/api'
+      testDir: './tests/easyrpa/api',
+      testMatch: '**/*.api.test.ts'
+    },
+    {
+      name: 'easyrpa-contracts',
+      testDir: './tests/easyrpa/contracts/consumer',
+      testMatch: '**/*.pact.test.ts'
     }
   ]
 });

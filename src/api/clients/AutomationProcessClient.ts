@@ -21,6 +21,20 @@ export class AutomationProcessClient extends BaseApiClient {
     return { createResponse, createBody };
   }
 
+  async getById(id: number): Promise<{ response: APIResponse; body: AutomationProcessResponse }> {
+    const response = await this.get(`${endpoints.automationProcesses}/${id}`);
+    const body: AutomationProcessResponse = await response.json();
+    return { response, body };
+  }
+
+  async deleteById(id?: number): Promise<APIResponse | undefined> {
+    if (!id) {
+      return undefined;
+    }
+    const response = await this.delete(`${endpoints.automationProcesses}/${id}`);
+    return response;
+  }
+
   async createAndCleanup(data: CreateAPRequest): Promise<{
     createResponse: APIResponse;
     createBody: AutomationProcessResponse;
@@ -32,14 +46,6 @@ export class AutomationProcessClient extends BaseApiClient {
       createBody,
       cleanup: () => this.deleteById(createBody.id)
     };
-  }
-
-  async deleteById(id?: number): Promise<APIResponse | undefined> {
-    if (!id) {
-      return undefined;
-    }
-    const response = await this.delete(`${endpoints.automationProcesses}/${id}`);
-    return response;
   }
 
   async search(requestBody: SearchAPRequest): Promise<{ response: APIResponse; body: SearchAPResponse }> {
